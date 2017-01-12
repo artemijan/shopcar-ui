@@ -1,0 +1,19 @@
+{
+    "dist": {
+        "files": [
+            {
+                "expand": true,
+                "dot": true,
+                "cwd": "<%= dirs.app %>",
+                "src": [
+                    "*.{ico,png,txt,html,json}",
+                    "vendor/**/*",
+                    "images/**/*",
+                    "styles/font-icons/**/*",
+                    "!vendor/tinymce/plugins/**"
+                ],
+                "dest": "<%= dirs.dist %>"
+            }
+        ]
+    }
+}

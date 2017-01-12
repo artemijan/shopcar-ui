@@ -18,6 +18,7 @@
   "homepage": "https://github.com/artemijan/shopcar-ui#readme",
   "dependencies": {
     "grunt": "^1.0.1",
+    "grunt-config": "^1.0.0",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-connect": "^1.0.2",
@@ -29,8 +30,9 @@
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-processhtml": "^0.4.1",
+    "grunt-replace": "~0.11.0",
     "less": "^2.7.1",
-    "load-grunt-config": "^0.19.2",
+    "load-grunt-configs": "^1.0.0",
     "load-grunt-tasks": "^3.5.2",
     "requirejs": "^2.3.2",
     "requirejs-plugins": "^1.0.2"

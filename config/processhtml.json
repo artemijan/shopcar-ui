@@ -1,0 +1,17 @@
+{
+  "options": {
+    "data": {
+      "pageTitle": "<%= grunt.config.get('pageTitle') %>"
+    }
+  },
+  "dist": {
+    "files": {
+      "<%= dirs.dist %>/index.html": "<%= dirs.dist %>/index.html"
+    }
+  },
+  "dev":{
+    "files": {
+      "<%= dirs.tmp %>/index.html": "<%= dirs.app %>/index.html"
+    }
+  }
+}

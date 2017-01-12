@@ -1,0 +1,24 @@
+{
+    "options": {
+        "livereload": "<%= connect.options.livereload %>"
+    },
+    "env": {
+        "files": ["<%= dirs.app %>/scripts/configuration.js"],
+        "tasks": ["config:dev", "replace:livereload"]
+    },
+    "templates": {
+        "files": ["<%= dirs.app %>/views/**/*.html"],
+        "tasks": ["html2js:livereload"]
+    },
+    "styles": {
+        "files": ["<%= dirs.app %>/styles/{,*/}*.less"],
+        "tasks": ["less:livereload"]
+    },
+    "livereload": {
+        "files": [
+            "<%= dirs.app %>/scripts/{,*/}*.js",
+            "<%= dirs.app %>/{,*/}*.html",
+            "<%= dirs.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}"
+        ]
+    }
+}

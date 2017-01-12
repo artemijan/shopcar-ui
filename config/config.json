@@ -1,0 +1,41 @@
+{
+  "dev": {
+    "options": {
+      "variables": {
+        "pageTitle": "WebUI",
+        "environment": "development",
+        "siteDomain": "<%= host %>:9000",
+        "apiDomain": "<%= host %>:40777",
+        "showVersion": true,
+        "useXDomain": true,
+        "protocol": "http",
+        "logLevel": "debug",
+        "bucket": null,
+        "tinymcePluginsPath": null,
+        "googleAnalyticsTrackingId": "UA-68958247-1",
+        "distributionId": null,
+        "browserCacheMaxAge": null
+      }
+    }
+  },
+  "fake": {
+    "options": {
+      "variables": {
+        "pageTitle": "WebUI-fake",
+        "environment": "development",
+        "siteDomain": "<%= host %>:9000",
+        "apiDomain": "<%= host %>:40777",
+        "showVersion": true,
+        "useXDomain": true,
+        "protocol": "http",
+        "logLevel": "debug",
+        "bucket": null,
+        "tinymcePluginsPath": null,
+        "googleAnalyticsTrackingId": "UA-68958247-1",
+        "distributionId": null,
+        "browserCacheMaxAge": null,
+        "useFakeApi": true
+      }
+    }
+  }
+}
