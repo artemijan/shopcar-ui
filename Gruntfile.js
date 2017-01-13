@@ -2,38 +2,43 @@
  * Created by Artem on 1/12/2017.
  */
 /*global module*/
-module.exports = function(grunt){
+module.exports = function (grunt) {
     "use strict";
-    require("load-grunt-tasks")(grunt);
-    var configs = require("load-grunt-configs")(grunt);
-    configs.pkg = grunt.file.readJSON("package.json");
-    configs.dirs = {
-        app: "app",
-        dist: "dist",
-        tmp: ".tmp",
-        test: "test"
+    require('load-grunt-tasks')(grunt);
+    var config = {
+        appConfig: {
+            app: require('./bower.json').appPath || 'app',
+            dist: 'dist',
+            server: '.tmp'
+        },
+        buildMeta: {
+            appVersion: grunt.file.readJSON("package.json").version,
+            environment: grunt.option('env') || 'dev',
+            noCache: grunt.option('nocache') || Date.now(),
+            releaseTag: grunt.option('release-tag') || grunt.option('release') || 'DEV'
+        }
     };
-    configs.host = "localhost";
-    grunt.initConfig(configs);
-    grunt.registerTask("serve", function (target, host) {
-        if (host) {
-            configs.host = host;
-        }
-        if (target === "dist") {
-            return grunt.task.run(["connect:dist:keepalive"]);
-        }
-        var envToUse = "config:dev";
-        if (target === "fake") {
-            envToUse = "config:fake";
-        }
+    require('./config/env')(grunt, config);
+    config = require('load-grunt-configs')(grunt, config);
+    grunt.initConfig(config);
+    grunt.registerTask('serve', function () {
         grunt.task.run([
-            "clean:temp",
-            envToUse,
-            "replace:livereload",
-            "processhtml:dev",
-            "less:livereload",
-            "connect:livereload",
-            "watch"
+            'autoprefixer',
+            'connect:livereload',
+            //'requirejs:server',
+            'less:server',
+            'copy:server',
+            'processhtml:dev',
+            'watch'
+        ]);
+    });
+    grunt.registerTask('dist', function () {
+        grunt.task.run([
+            'autoprefixer',
+            'less:dist',
+            'copy:dist',
+            'requirejs:dist',
+            'processhtml:dist'
         ]);
     });
 };
