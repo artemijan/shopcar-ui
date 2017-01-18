@@ -12,18 +12,14 @@ define(
         App.config([
             '$httpProvider',
             function ($httpProvider) {
-                if(appConfig.useHeaderAuth){
-                    $httpProvider.defaults.headers.common['X-Requested-By'] = 'DockerWebUI';
-                    if (appConfig.useCookiesAuth) {
-                        $httpProvider.defaults.withCredentials = true;
-                    }
-                }
+                $httpProvider.defaults.withCredentials = false;
+                $httpProvider.defaults.headers.common['Content-Type'] = 'application/json; charset=UTF-8';
                 $httpProvider.interceptors.push(function ($q, $rootScope, $location, $injector) {
                     var $q = $injector.get('$q');
                     return {
                         'request': function (config) {
-                            // handle on request action
-                            if (config.apiName === 'DockerWebUI') {
+                            if (config.apiName === 'WebUI') {
+                                // handle on request action
                                 if (appConfig.useFakeAPIService === false) {
                                     config.url = appConfig.apiUrl + config.url;
                                 }
@@ -47,24 +43,19 @@ define(
                          */
                         'response': function (response) {
                             return response;
-                        }
-
-                        ,
+                        },
                         'responseError': function (rejection) {
 
                             switch (rejection.status) {
-                                case 401:
-                                {
+                                case 401: {
                                     //unauthorized
                                     break;
                                 }
-                                case 500:
-                                {
+                                case 500: {
                                     // handle error here
                                     break;
                                 }
-                                default:
-                                {
+                                default: {
                                     //return rejection.
                                 }
                             }

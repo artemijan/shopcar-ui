@@ -1,0 +1,35 @@
+<md-dialog aria-label="Sign in form">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Sign in form</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                X
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-content layout-gt-sm="row" layout-padding>
+        <div>
+            <form ng-cloak name="signInForm" novalidate>
+                <md-input-container>
+                    <label>Email</label>
+                    <input type="email" ng-model-options="{allowInvalid:true}" ng-model="vm.credentials.username" name="username">
+                </md-input-container>
+                <br/>
+                <md-input-container>
+                    <label>Password</label>
+                    <input type="password" ng-model="vm.credentials.password" name="password">
+                </md-input-container>
+                <md-dialog-actions layout="row">
+                    <md-button ng-click="cancel()">
+                        Cancel
+                    </md-button>
+                    <span flex></span>
+                    <md-button ng-click="submit(vm.credentials)">
+                        Sign in
+                    </md-button>
+                </md-dialog-actions>
+            </form>
+        </div>
+    </md-content>
+</md-dialog>

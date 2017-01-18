@@ -1,7 +1,8 @@
 /**
  * Created by Artem on 1/12/2017.
  */
-define([
+define(
+    [
         'angular',
         'Env',
         'angular-material',
@@ -10,15 +11,21 @@ define([
         'angular-animate',
         'angular-mocks',
         'angular-messages',
-        "angular-aria"
+        "angular-aria",
+        "angular-aria",
+        "modules/Common/index",
+        "modules/Auth/index"
     ],
 
     function (angular, Env) {
         var deps = [
             'ui.router',
+            'ngMessages',
             'ngAnimate',
             'ngSanitize',
-            'ngMaterial'
+            'ngMaterial',
+            'WebUI.Common',
+            'WebUI.Auth'
         ];
         if (Env.useFakeAPIService) {
             deps[deps.length] = 'ngMockE2E';
@@ -28,7 +35,55 @@ define([
             '$rootScope',
             '$state',
             '$stateParams',
-            function ($rootScope, $state, $stateParams) {
+            '$mdDialog',
+            'WebUI.Auth.AuthService',
+            'WebUI.Common.SecurityContext',
+            function ($rootScope, $state, $stateParams, $mdDialog, authService, securityContext) {
+                $rootScope.onTabSelect = function (tab) {
+                    $rootScope._currentTab = tab;
+                };
+                $rootScope.loggedInUser = securityContext.getContext();
+                $rootScope.$on(securityContext.$onChangeEventName, function () {
+                    $rootScope.loggedInUser = securityContext.getContext();
+                });
+                $rootScope.openSignInModal = function (ev) {
+                    // Appending dialog to document.body to cover sidenav in docs app
+                    $mdDialog.show(
+                        {
+                            controller: 'WebUI.Common.BaseDialogController',
+                            templateUrl: 'views/auth/signInForm.html',
+                            targetEvent: ev,
+                            clickOutsideToClose: false
+                        }
+                    ).then(function (result) {
+                        $rootScope.signIn(result);
+                    }, function () {
+
+                    });
+                };
+                $rootScope.signIn = function (credentials) {
+                    $rootScope.busy = true;
+                    authService.signIn({username: credentials.username, password: credentials.password})
+                        .finally(function () {
+                            $rootScope.busy = false;
+                        });
+                };
+                $rootScope.navBarTabs = [
+                    {
+                        name: 'home',
+                        verboseName: 'Home',
+                        state: '/'
+                    },
+                    {
+                        name: 'categories',
+                        verboseName: 'Categories'
+                    },
+                    {
+                        name: 'products',
+                        verboseName: 'Products'
+                    }
+                ];
+                $rootScope.onTabSelect($rootScope.navBarTabs[0]);
                 //get docker version
                 $rootScope.$on('$stateChangeStart', function (event, nextState, nextStateParams, curState, curStateParams) {
                     $rootScope.currentState = nextState;
@@ -50,7 +105,9 @@ define([
         ]).config([
             '$stateProvider',
             '$urlRouterProvider',
-            function ($stateProvider, $urlRouterProvider) {
+            '$mdThemingProvider',
+            function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
+                $mdThemingProvider.theme('default').dark();
                 $stateProvider
                     .state('root', {
                         url: '',
@@ -60,13 +117,7 @@ define([
                     })
                     .state('rootEnter', {
                         url: '/',
-                        data: {
-                            redirect: 'login'
-                        }
-                    })
-                    .state('login', {
-                        url: '/login',
-                        templateUrl: "views/login.html"
+                        templateUrl: 'views/header.html'
                     })
                     .state('404', {
                         templateUrl: '404.html'
