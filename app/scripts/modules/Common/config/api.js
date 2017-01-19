@@ -35,6 +35,13 @@ define(function () {
                     password: credentials.password
                 }
             };
+        },
+        signOut: function () {
+            return {
+                url: '/auth/sign_out',
+                method: ALLOWED_METHODS.POST,
+                data: {}
+            };
         }
     };
     return Api;

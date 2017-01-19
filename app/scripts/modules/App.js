@@ -36,9 +36,10 @@ define(
             '$state',
             '$stateParams',
             '$mdDialog',
+            '$mdToast',
             'WebUI.Auth.AuthService',
             'WebUI.Common.SecurityContext',
-            function ($rootScope, $state, $stateParams, $mdDialog, authService, securityContext) {
+            function ($rootScope, $state, $stateParams, $mdDialog, $mdToast, authService, securityContext) {
                 $rootScope.onTabSelect = function (tab) {
                     $rootScope._currentTab = tab;
                 };
@@ -56,14 +57,28 @@ define(
                             clickOutsideToClose: false
                         }
                     ).then(function (result) {
-                        $rootScope.signIn(result);
-                    }, function () {
-
+                        $rootScope.signIn(result)
                     });
                 };
                 $rootScope.signIn = function (credentials) {
                     $rootScope.busy = true;
                     authService.signIn({username: credentials.username, password: credentials.password})
+                        .then(function (response) {
+                            $mdToast.show(
+                                $mdToast.simple()
+                                    .textContent("you have been logged in.")
+                                    .hideDelay(3000)
+                                    .toastClass('toast-success')
+                            )
+                        })
+                        .catch(function (response) {
+                            $mdToast.show(
+                                $mdToast.simple()
+                                    .textContent(response.service.error_message)
+                                    .hideDelay(3000)
+                                    .toastClass('toast-error')
+                            )
+                        })
                         .finally(function () {
                             $rootScope.busy = false;
                         });
@@ -117,7 +132,7 @@ define(
                     })
                     .state('rootEnter', {
                         url: '/',
-                        templateUrl: 'views/header.html'
+                        templateUrl: 'views/common.html'
                     })
                     .state('404', {
                         templateUrl: '404.html'

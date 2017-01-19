@@ -35,7 +35,7 @@ define(['../module'], function (module) {
                      * HTTP errors handling is not responsibility of concrete services.
                      * So, do not touch subsidiary promise! (i"m very serious)
                      */
-                    defer.reject(httpResponse);
+                    defer.reject(httpResponse.data);
                 });
             return defer.promise;
         };

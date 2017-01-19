@@ -14,9 +14,18 @@ define(['../module', 'modules/Common/config/api'], function (module, api) {
         var me = this;
         var endpoint = me._api.auth.signIn(credentials);
         return me._jsonApiService.request(endpoint)
-            .then(function(response){
+            .then(function (response) {
                 me._securityContext.setContext(response.payload);
                 return response;
+            });
+    };
+
+    AuthService.prototype.signOut = function () {
+        var me = this;
+        var endpoint = me._api.auth.signOut();
+        return me._jsonApiService.request(endpoint)
+            .then(function () {
+                me._securityContext.setContext(null);
             });
     };
 
