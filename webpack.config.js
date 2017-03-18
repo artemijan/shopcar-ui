@@ -1,16 +1,26 @@
 /**
  * Created by arrtem on 2/10/17.
  */
+/*global require, module*/
 const buildDir = "/dist";
+var webpack = require('webpack');
+var devFlagPlugin = new webpack.DefinePlugin({
+  __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false'))
+});
+
 module.exports = {
   context: __dirname + "/app",
-
   entry: {
     app: ["./js/index.js", "./index.html", "./styles/main.css"]
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json']
   },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+    devFlagPlugin
+  ],
   module: {
     loaders: [
       {

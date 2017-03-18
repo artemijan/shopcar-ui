@@ -1,0 +1,9 @@
+/**
+ * Created by arrtem on 3/18/17.
+ */
+import * as reducers from './reducers';
+import { combineReducers } from 'redux';
+import { createStore } from './utils/devTools';
+const reducer = combineReducers(reducers);
+const store = createStore(reducer);
+export default store;
