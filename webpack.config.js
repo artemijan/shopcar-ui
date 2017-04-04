@@ -1,6 +1,7 @@
 /**
- * Created by arrtem on 2/10/17.
+ * Created by artem on 2/10/17.
  */
+/*global module, __dirname*/
 const buildDir = "/dist";
 module.exports = {
   context: __dirname + "/app",
